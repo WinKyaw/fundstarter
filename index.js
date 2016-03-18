@@ -1,15 +1,33 @@
-var express = require('express')
-var app = express()
+var http = require("http");
+var fs = require("fs");
 
-/* serves all the static files*/
-app.set('port', (process.env.PORT || 8080))
-app.use(express.static(__dirname + '/public'))
+//part 1(a)
+// var readfilesync = function(callback){
+// 	return readfile('./index.html', 'utf8');
+// }
 
-/*serves main page*/
-app.get('/', function(request, response) {
-response.sendfile('index.html') 
-})
+// var connection = function(request, response){
+	
 
-app.listen(app.get('port'), function() {
-  console.log("Node app is running at localhost:" + app.get('port'))
-})
+// 	return response.sendreadSyncHTML();
+// }
+
+// var server = http.createServer(connection);
+// server.listen(8100);
+
+
+//part 1(b)
+fs.readFile('./index.html', function(err, html) {
+	if(err) {
+		throw err;
+	}
+	
+	var server = http.createServer(function(request, response) {
+		response.writeHeader(200, {"Content-Type": "text/html"});
+		response.write(html);
+		response.end();
+	});
+	server.listen(8000);
+});
+
+
